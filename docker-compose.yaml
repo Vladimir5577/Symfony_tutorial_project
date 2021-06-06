@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+
+    mysql8-service:
+        image: mysql:8
+        container_name: mysql8_container
+        ports:
+            - 4306:3306
+        volumes:
+            - ./mysql:/var/lib/mysql
+        command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        restart: unless-stopped  
+        environment:
+            # MYSQL_USER: user # no need root by default
+            MYSQL_ROOT_PASSWORD: password
+            # MYSQL_PASSWORD: password
+
+    adminer:
+        image: adminer
+        restart: unless-stopped 
+        ports:
+            - 8085:8080
+
+# not good
+# postgres not saving database after command - docker-compose down
+#     database:
+#         image: postgres:11-alpine
+#         container_name: postgres_container
+#         ports: 
+#             - 5433:5432
+#         volumes:
+#             - ./postgresql_db:/var/lib/postgresql/data
+#         environment:
+#             POSTGRES_USER: user
+#             POSTGRES_PASSWORD: password
+#             # POSTGRES_DB: symfony_guestbook
+
+#     adminer:
+#         image: adminer
+#         restart: unless-stopped 
+#         ports:
+#             - 8085:8080
+
+    redis:
+        image: redis:5-alpine
+        ports: [6379]
+
+    # rabbitmq:
+    #     image: rabbitmq:3.7-management
+    #     ports: [5672, 15672]
+
+    # mailcatcher:
+    #     image: schickling/mailcatcher
+    #     ports: [1025, 1080]
+
+    # blackfire:
+    #     image: blackfire/blackfire
+    #     env_file: .env.local
+    #     ports: [8707]
