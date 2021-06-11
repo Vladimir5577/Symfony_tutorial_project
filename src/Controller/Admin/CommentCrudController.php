@@ -14,6 +14,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+
 class CommentCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -47,13 +49,16 @@ class CommentCrudController extends AbstractCrudController
         yield TextareaField::new('text')
             ->hideOnIndex()
         ;
-        yield TextField::new('photoFilename')
-            ->hideOnIndex()
-        ;
+        // yield TextField::new('photoFilename')
+        //     ->hideOnIndex()
+        // ;
         // ??????????????
-        yield TextField::new('photoFilename')
+        yield ImageField::new('photoFilename')
+            ->setBasePath('/uploads/photos')
+            ->setLabel('Photo')
             ->onlyOnIndex()
         ;
+        yield TextField::new('state');
         // ??????????????
 
         $createdAt = DateTimeField::new('createdAt')->setFormTypeOptions([

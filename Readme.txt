@@ -16,6 +16,12 @@ Install dependencies:
 	$ symfony composer req twig
 	$ symfony composer require twig/intl-extra
 	$ symfony composer req validator
+	$ symfony composer req security
+	$ symfony composer req phpunit
+	$ symfony composer require browser-kit --dev   --- for functional testing
+	$ symfony composer req messenger
+	$ symfony composer req mailer
+	$ symfony composer req imagine/imagine
 
 To see logs:
 
@@ -32,6 +38,10 @@ Check environment variables:
 Clear cache:
 
 	$ ./bin/console cache:clear
+
+Debug router:
+
+	$ symfony console debug:router
 
 // =============================================
 
@@ -128,15 +138,57 @@ Install:
 		127.0.0.1:8000/admin
 
 // =============================================
+
+Form.
+--------
+
+Create form:
+
+	$ symfony console make:form CommentFormType Comment
+
+
 // =============================================
+
+Security.
+----------
+
+Create admin:
+
+	$ symfony console make:user Admin
+
+Encode passowrd:
+
+	$ symfony console security:encode-password
+
+Create admin to database after creation entity:
+	
+	??? --- not working
+	$ symfony run mysql "INSERT INTO admin (id, username, roles, password) \
+  VALUES (nextval('admin_id_seq'), 'admin', '[\"ROLE_ADMIN\"]', \
+  '\$argon2id\$v=19\$m=65536,t=4,p=1\$wyBWIpmfOXTodG8xdoLbOg\$2+8aSWrMK3rTw58rE7ZHqSk838AFNOn/D+8VvtIl8uk')"
+
+Add to database to the admin table:
+
+	username   --- admin
+	roles	   --- ["ROLE_ADMIN"]
+	passowrd   --- $argon2id$v=19$m=65536,t=4,p=1$pstqjbXS+c/dPPGNGovDhQ$bW3pk1HB31V4d4WboxMYgkHrWRI/PTbAD7LSbI6cCtE 
+
+To enter to admin:
+
+	username --- admin
+	passowrd --- 123
+
+  $ symfony console make:auth
+  	> 1 --- Login form authentication
+
 // =============================================
 // =============================================
 // =============================================
 
-14.1
+16.1
 
 Online
 https://symfony.com/doc/current/the-fast-track/ru/14-form.html
 
 Git whole project:
-symfony new --version=5.0-1 --book guestbook 
+https://github.com/the-fast-track/book-5.0-1.git
